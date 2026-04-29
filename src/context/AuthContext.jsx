@@ -9,7 +9,7 @@ const STORAGE_KEYS = {
   VIDEO_PROGRESS: 'le_video_progress',
 };
 
-const DEMO_COURSE_ID = 'shivani-demo';
+const DEMO_COURSE_ID = 'certificate-program-45h';
 const SEEDED_ACCOUNTS = [
   { firstName: 'Yashvant', lastName: 'Dayanand Mane', email: 'yashvant@gmail.com' },
   { firstName: 'Mahek', lastName: 'Shaikh', email: 'mahek@gmail.com' },
@@ -108,6 +108,12 @@ export function AuthProvider({ children }) {
           }
 
           seedDemoCompletion();
+          const migratedEnrollments = JSON.parse(localStorage.getItem(STORAGE_KEYS.ENROLLMENTS) || '{}');
+          if (migratedEnrollments['shivani-demo'] && !migratedEnrollments[DEMO_COURSE_ID]) {
+            migratedEnrollments[DEMO_COURSE_ID] = migratedEnrollments['shivani-demo'];
+            delete migratedEnrollments['shivani-demo'];
+            localStorage.setItem(STORAGE_KEYS.ENROLLMENTS, JSON.stringify(migratedEnrollments));
+          }
 
           // Update in-memory state so the app reflects the seeded data immediately
           setCertificates(JSON.parse(localStorage.getItem(STORAGE_KEYS.CERTIFICATES) || '[]'));

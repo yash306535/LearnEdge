@@ -3,6 +3,17 @@ import { useAuth } from '../context/AuthContext';
 import { getCourseById } from '../data/courses';
 import certificateImage from '../asset/shivani.png';
 
+const certificateImageModules = import.meta.glob('../asset/*.png', {
+  eager: true,
+  import: 'default',
+});
+
+const slugify = (value) => value
+  .toLowerCase()
+  .trim()
+  .replace(/[^a-z0-9]+/g, '-')
+  .replace(/^-+|-+$/g, '');
+
 export default function CertificateView() {
   const { courseId } = useParams();
   const navigate = useNavigate();
@@ -33,7 +44,7 @@ export default function CertificateView() {
   const handlePrint = () => window.print();
 
   const handleDownload = async () => {
-    const response = await fetch(certificateImage);
+    const response = await fetch(certificateAsset);
     const blob = await response.blob();
     const url = URL.createObjectURL(blob);
     const link = document.createElement('a');
@@ -56,6 +67,10 @@ export default function CertificateView() {
   };
 
   const fullName = `${user?.firstName || ''} ${user?.lastName || ''}`.trim();
+  const certificateSlug = slugify(fullName || user?.email?.split('@')[0] || 'shivani');
+  const certificateAsset = certificateImageModules[`../asset/${certificateSlug}.png`]
+    || certificateImageModules[`../asset/${slugify(user?.firstName || '')}.png`]
+    || certificateImage;
 
   return (
     <div className="cert-view-page">
@@ -82,7 +97,7 @@ export default function CertificateView() {
         </div>
 
         <div className="certificate-image-wrap" id="certificate-print">
-          <img className="certificate-image" src={certificateImage} alt="LearnEdge certificate design" />
+          <img className="certificate-image" src={certificateAsset} alt={`${fullName || user?.firstName || 'Learner'} certificate`} />
           <div className="certificate-image-caption">
             <div className="cert-title-inline">{course.title}</div>
             <div className="cert-meta-inline">{course.duration} · Completed by {fullName || 'Learner'} · Issued {issuedDate} · ID {cert.id}</div>

@@ -2,21 +2,21 @@ import shivaniCertificateImage from '../asset/shivani.png';
 
 export const courses = [
   {
-    id: "shivani-demo",
-    title: "Shivani's Demo Course",
-    subtitle: "Demo course pre-seeded for Shivani Kapase",
-    description: "A short demo course used to show seeded certificate and completed progress for Shivani.",
+    id: "certificate-program-45h",
+    title: "LearnEdge Certificate Program",
+    subtitle: "Complete this 45-hour certificate track and earn your credential",
+    description: "A 45-hour certificate track that appears completed for every logged-in learner and supports personalized certificate artwork.",
     instructor: {
-      name: "Shivani Kapase",
-      title: "Learner",
-      company: "LearnEdge Demo",
+      name: "LearnEdge Academy",
+      title: "Learning Team",
+      company: "LearnEdge",
       avatar: shivaniCertificateImage,
-      bio: "Demo instructor account for Shivani.",
+      bio: "Shared certificate track for LearnEdge learners.",
       courses: 1,
       students: 1,
       rating: 5
     },
-    category: "Demo",
+    category: "Certificate Track",
     level: "Beginner",
     totalHours: 45,
     duration: "45 hours",
@@ -27,21 +27,21 @@ export const courses = [
     price: 0,
     originalPrice: 0,
     thumbnail: shivaniCertificateImage,
-    badge: "Demo",
+    badge: "Certificate",
     certificate: true,
     lastUpdated: "April 2026",
     language: "English",
-    tags: ["Demo", "Seed"],
-    whatYouLearn: ["This is a seeded demo course for Shivani"],
+    tags: ["Certificate", "Completion", "Credential"],
+    whatYouLearn: ["Complete the 45-hour track and unlock a shareable certificate"],
     requirements: ["No prerequisites"],
     playlist: [
       {
         id: 1,
-        section: "Demo Playlist",
+        section: "Certificate Playlist",
         videos: [
-          { id: "d-v1", title: "Welcome (Demo)", duration: "5:00", videoId: "demo1", preview: true },
-          { id: "d-v2", title: "Overview (Demo)", duration: "10:00", videoId: "demo2" },
-          { id: "d-v3", title: "Wrap Up (Demo)", duration: "8:00", videoId: "demo3" }
+          { id: "c-v1", title: "Welcome to the Certificate Track", duration: "5:00", videoId: "demo1", preview: true },
+          { id: "c-v2", title: "How the Certificate Works", duration: "10:00", videoId: "demo2" },
+          { id: "c-v3", title: "Finish and Claim Your Certificate", duration: "8:00", videoId: "demo3" }
         ]
       }
     ]
