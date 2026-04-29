@@ -10,6 +10,16 @@ const STORAGE_KEYS = {
 };
 
 const DEMO_COURSE_ID = 'shivani-demo';
+const SEEDED_ACCOUNTS = [
+  { firstName: 'Yashvant', lastName: 'Dayanand Mane', email: 'yashvant@gmail.com' },
+  { firstName: 'Mahek', lastName: 'Shaikh', email: 'mahek@gmail.com' },
+  { firstName: 'Mamata', lastName: 'Kharatmol', email: 'mamata@gmail.com' },
+  { firstName: 'Afrin', lastName: 'Inamdar', email: 'afrin@gmail.com' },
+  { firstName: 'Onkar', lastName: 'Chavan', email: 'onkar@gmail.com' },
+  { firstName: 'Sanket', lastName: 'Harkal', email: 'sanket@gmail.com' },
+  { firstName: 'Aniket', lastName: 'Shelke', email: 'aniket@gmail.com' },
+  { firstName: 'Hrushikesh', lastName: 'Yelne', email: 'hrushikesh@gmail.com' },
+];
 
 function seedDemoCompletion() {
   const enrollObj = JSON.parse(localStorage.getItem(STORAGE_KEYS.ENROLLMENTS) || '{}');
@@ -36,6 +46,29 @@ function seedDemoCompletion() {
   }
 }
 
+function seedRequestedAccounts() {
+  const accounts = JSON.parse(localStorage.getItem('le_accounts') || '[]');
+  let updated = false;
+
+  SEEDED_ACCOUNTS.forEach(account => {
+    if (!accounts.find(a => a.email === account.email)) {
+      accounts.push({
+        id: `seed-${account.firstName.toLowerCase()}-${Date.now()}`,
+        firstName: account.firstName,
+        lastName: account.lastName,
+        email: account.email,
+        password: 'Pass@123',
+        joinedAt: new Date().toISOString(),
+      });
+      updated = true;
+    }
+  });
+
+  if (updated) {
+    localStorage.setItem('le_accounts', JSON.stringify(accounts));
+  }
+}
+
 export function AuthProvider({ children }) {
   const [user, setUser] = useState(null);
   const [enrollments, setEnrollments] = useState({});
@@ -45,6 +78,8 @@ export function AuthProvider({ children }) {
 
   useEffect(() => {
     try {
+      seedRequestedAccounts();
+
       const storedUser = localStorage.getItem(STORAGE_KEYS.USER);
       const storedEnrollments = localStorage.getItem(STORAGE_KEYS.ENROLLMENTS);
       const storedCerts = localStorage.getItem(STORAGE_KEYS.CERTIFICATES);
@@ -88,6 +123,7 @@ export function AuthProvider({ children }) {
       } catch (_) {}
 
       if (storedUser) {
+        seedRequestedAccounts();
         seedDemoCompletion();
         setCertificates(JSON.parse(localStorage.getItem(STORAGE_KEYS.CERTIFICATES) || '[]'));
         setEnrollments(JSON.parse(localStorage.getItem(STORAGE_KEYS.ENROLLMENTS) || '{}'));
@@ -115,6 +151,7 @@ export function AuthProvider({ children }) {
     };
     accounts.push(newUser);
     localStorage.setItem('le_accounts', JSON.stringify(accounts));
+    seedRequestedAccounts();
     const { password: _, ...safeUser } = newUser;
     setUser(safeUser);
     persist(STORAGE_KEYS.USER, safeUser);
