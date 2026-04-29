@@ -7,6 +7,7 @@ export default function Navbar() {
   const navigate = useNavigate();
   const location = useLocation();
   const [dropdownOpen, setDropdownOpen] = useState(false);
+  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const dropdownRef = useRef(null);
 
   useEffect(() => {
@@ -22,6 +23,7 @@ export default function Navbar() {
   const handleLogout = () => {
     logout();
     setDropdownOpen(false);
+    setMobileMenuOpen(false);
     navigate('/');
   };
 
@@ -39,14 +41,14 @@ export default function Navbar() {
           <span>Learn<span>Edge</span></span>
         </Link>
 
-        <div className="nav-links">
-          <Link to="/" className={`nav-link ${isActive('/') ? 'active' : ''}`}>Home</Link>
-          <Link to="/courses" className={`nav-link ${isActive('/courses') ? 'active' : ''}`}>Courses</Link>
+        <div className={`nav-links ${mobileMenuOpen ? 'mobile-open' : ''}`}>
+          <Link to="/" className={`nav-link ${isActive('/') ? 'active' : ''}`} onClick={() => setMobileMenuOpen(false)}>Home</Link>
+          <Link to="/courses" className={`nav-link ${isActive('/courses') ? 'active' : ''}`} onClick={() => setMobileMenuOpen(false)}>Courses</Link>
           {user && (
             <>
-              <Link to="/dashboard" className={`nav-link ${isActive('/dashboard') ? 'active' : ''}`}>Dashboard</Link>
-              <Link to="/my-learning" className={`nav-link ${isActive('/my-learning') ? 'active' : ''}`}>My Learning</Link>
-              <Link to="/certificates" className={`nav-link ${isActive('/certificates') ? 'active' : ''}`}>Certificates</Link>
+              <Link to="/dashboard" className={`nav-link ${isActive('/dashboard') ? 'active' : ''}`} onClick={() => setMobileMenuOpen(false)}>Dashboard</Link>
+              <Link to="/my-learning" className={`nav-link ${isActive('/my-learning') ? 'active' : ''}`} onClick={() => setMobileMenuOpen(false)}>My Learning</Link>
+              <Link to="/certificates" className={`nav-link ${isActive('/certificates') ? 'active' : ''}`} onClick={() => setMobileMenuOpen(false)}>Certificates</Link>
             </>
           )}
         </div>
@@ -85,12 +87,16 @@ export default function Navbar() {
               )}
             </div>
           ) : (
-            <>
+            <div className="nav-auth-buttons">
               <Link to="/login" className="btn btn-secondary btn-sm">Log In</Link>
-              <Link to="/register" className="btn btn-primary btn-sm">Get Started Free</Link>
-            </>
+              <Link to="/register" className="btn btn-primary btn-sm">Get Started</Link>
+            </div>
           )}
         </div>
+
+        <button className="mobile-menu-btn" onClick={() => setMobileMenuOpen(!mobileMenuOpen)}>
+          ☰
+        </button>
       </div>
     </nav>
   );
