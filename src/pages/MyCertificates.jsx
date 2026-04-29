@@ -108,8 +108,8 @@ export default function MyCertificates() {
                       >
                         🏆 View Certificate
                       </button>
-                      <button className="btn btn-secondary btn-sm" onClick={e => { e.stopPropagation(); window.print(); }}>
-                        🖨 Print
+                      <button className="btn btn-secondary btn-sm" onClick={e => { e.stopPropagation(); navigate(`/certificates/${cert.courseId}`); }}>
+                        🏆 Open
                       </button>
                     </div>
                   </div>

@@ -1,6 +1,7 @@
 import { useParams, useNavigate } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
 import { getCourseById } from '../data/courses';
+import certificateImage from '../asset/shivani.png';
 
 export default function CertificateView() {
   const { courseId } = useParams();
@@ -31,6 +32,19 @@ export default function CertificateView() {
 
   const handlePrint = () => window.print();
 
+  const handleDownload = async () => {
+    const response = await fetch(certificateImage);
+    const blob = await response.blob();
+    const url = URL.createObjectURL(blob);
+    const link = document.createElement('a');
+    link.href = url;
+    link.download = `${course.title.replace(/[^a-z0-9]+/gi, '-').toLowerCase()}-certificate.png`;
+    document.body.appendChild(link);
+    link.click();
+    link.remove();
+    URL.revokeObjectURL(url);
+  };
+
   const handleShare = () => {
     const text = `I just earned my "${course.title}" certificate on LearnEdge.online! 🎓 #LearnEdge #AILearning #Claude`;
     if (navigator.share) {
@@ -56,6 +70,9 @@ export default function CertificateView() {
           <button className="btn btn-primary btn-lg" onClick={handlePrint}>
             🖨 Print Certificate
           </button>
+          <button className="btn btn-secondary btn-lg" onClick={handleDownload}>
+            ⬇ Download PNG
+          </button>
           <button className="btn btn-secondary btn-lg" onClick={handleShare}>
             🔗 Share
           </button>
@@ -64,101 +81,16 @@ export default function CertificateView() {
           </button>
         </div>
 
-        {/* THE CERTIFICATE */}
-        <div className="certificate-paper" id="certificate-print">
-          {/* Decorative corners */}
-          <div className="cert-paper-corner tl" />
-          <div className="cert-paper-corner tr" />
-          <div className="cert-paper-corner bl" />
-          <div className="cert-paper-corner br" />
-
-          {/* Inner border decoration */}
-          <div style={{
-            border: '2px solid rgba(217,119,6,0.3)',
-            borderRadius: 'calc(var(--radius-xl) - 6px)',
-            padding: '3rem',
-            position: 'relative',
-          }}>
-            {/* Logo */}
-            <div className="cert-logo-row">
-              <div className="cert-logo-icon">🎓</div>
-              <div className="cert-logo-name">LearnEdge<span style={{ color: 'var(--text-muted)', fontWeight: 500 }}>.online</span></div>
-            </div>
-
-            <div className="cert-divider-gold" />
-
-            <div className="cert-top-label">Certificate of Completion</div>
-            <h1 className="cert-main-title">CERTIFICATE</h1>
-            <p className="cert-certify-text" style={{ fontSize: '1.1rem' }}>This is to proudly certify that</p>
-
-            <div className="cert-student-name">{fullName}</div>
-
-            <p className="cert-completion-text">has successfully completed the course</p>
-
-            <div className="cert-course-name">{course.title}</div>
-
-            <p style={{ fontSize: '0.9rem', color: '#92400E', maxWidth: 600, margin: '0 auto 1.5rem', lineHeight: 1.65 }}>
-              A comprehensive {course.duration} program covering {course.subtitle.toLowerCase()}. Demonstrating exceptional commitment to professional development in Artificial Intelligence.
-            </p>
-
-            <div className="cert-divider-gold" />
-
-            <div className="cert-details-row">
-              <div className="cert-detail-item">
-                <div className="cert-detail-label">Duration</div>
-                <div className="cert-detail-value">{course.duration}</div>
-              </div>
-              <div className="cert-detail-item">
-                <div className="cert-detail-label">Level</div>
-                <div className="cert-detail-value">{course.level}</div>
-              </div>
-              <div className="cert-detail-item">
-                <div className="cert-detail-label">Lectures</div>
-                <div className="cert-detail-value">{course.lectures}</div>
-              </div>
-              <div className="cert-detail-item">
-                <div className="cert-detail-label">Date Issued</div>
-                <div className="cert-detail-value">{issuedDate}</div>
-              </div>
-            </div>
-
-            <div className="cert-seal">
-              <div className="cert-seal-inner">
-                <div className="cert-seal-icon">🎓</div>
-                <div className="cert-seal-text">Verified</div>
-              </div>
-            </div>
-
-            <div className="cert-sigs">
-              <div className="cert-sig">
-                <div style={{ fontFamily: 'Playfair Display, serif', fontSize: '1.3rem', color: 'var(--primary)', marginBottom: '0.5rem', fontStyle: 'italic' }}>
-                  {course.instructor.name}
-                </div>
-                <div className="cert-sig-line" />
-                <div className="cert-sig-name">{course.instructor.name}</div>
-                <div className="cert-sig-title">Course Instructor</div>
-                <div style={{ fontSize: '0.7rem', color: '#B45309', marginTop: '0.2rem' }}>{course.instructor.title}</div>
-              </div>
-              <div style={{ width: 1, background: 'rgba(217,119,6,0.25)' }} />
-              <div className="cert-sig">
-                <div style={{ fontFamily: 'Playfair Display, serif', fontSize: '1.3rem', color: 'var(--primary)', marginBottom: '0.5rem', fontStyle: 'italic' }}>
-                  Alexandra Reed
-                </div>
-                <div className="cert-sig-line" />
-                <div className="cert-sig-name">Alexandra Reed</div>
-                <div className="cert-sig-title">Chief Executive Officer</div>
-                <div style={{ fontSize: '0.7rem', color: '#B45309', marginTop: '0.2rem' }}>LearnEdge.online</div>
-              </div>
-            </div>
-
-            <div className="cert-id">
-              Certificate ID: {cert.id} &nbsp;|&nbsp; Verify at: learnedge.online/verify/{cert.id}
-            </div>
+        <div className="certificate-image-wrap" id="certificate-print">
+          <img className="certificate-image" src={certificateImage} alt="LearnEdge certificate design" />
+          <div className="certificate-image-caption">
+            <div className="cert-title-inline">{course.title}</div>
+            <div className="cert-meta-inline">{course.duration} · Completed by {fullName || 'Learner'} · Issued {issuedDate} · ID {cert.id}</div>
           </div>
         </div>
 
         {/* SHARE SECTION */}
-        <div style={{ textAlign: 'center', marginTop: '2.5rem', padding: '2rem', background: 'white', borderRadius: 'var(--radius-xl)', border: '1px solid var(--border)', maxWidth: 700, margin: '2.5rem auto 0' }}>
+        <div className="certificate-share-panel">
           <h3 style={{ fontFamily: 'var(--font-display)', fontSize: '1.2rem', fontWeight: 700, marginBottom: '0.5rem' }}>
             🎉 Congratulations, {user?.firstName}!
           </h3>

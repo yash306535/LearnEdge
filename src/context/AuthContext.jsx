@@ -9,6 +9,33 @@ const STORAGE_KEYS = {
   VIDEO_PROGRESS: 'le_video_progress',
 };
 
+const DEMO_COURSE_ID = 'shivani-demo';
+
+function seedDemoCompletion() {
+  const enrollObj = JSON.parse(localStorage.getItem(STORAGE_KEYS.ENROLLMENTS) || '{}');
+  if (!enrollObj[DEMO_COURSE_ID] || !enrollObj[DEMO_COURSE_ID].completed) {
+    enrollObj[DEMO_COURSE_ID] = {
+      enrolledAt: enrollObj[DEMO_COURSE_ID]?.enrolledAt || new Date().toISOString(),
+      completedVideos: enrollObj[DEMO_COURSE_ID]?.completedVideos || [],
+      completed: true,
+      completedAt: enrollObj[DEMO_COURSE_ID]?.completedAt || new Date().toISOString(),
+      progressPercent: 100,
+    };
+    localStorage.setItem(STORAGE_KEYS.ENROLLMENTS, JSON.stringify(enrollObj));
+  }
+
+  const certs = JSON.parse(localStorage.getItem(STORAGE_KEYS.CERTIFICATES) || '[]');
+  if (!certs.find(c => c.courseId === DEMO_COURSE_ID)) {
+    certs.push({
+      id: `LE-DEMO-${Date.now()}`,
+      courseId: DEMO_COURSE_ID,
+      userId: 'demo-user',
+      issuedAt: new Date().toISOString(),
+    });
+    localStorage.setItem(STORAGE_KEYS.CERTIFICATES, JSON.stringify(certs));
+  }
+}
+
 export function AuthProvider({ children }) {
   const [user, setUser] = useState(null);
   const [enrollments, setEnrollments] = useState({});
@@ -27,7 +54,6 @@ export function AuthProvider({ children }) {
       if (storedCerts) setCertificates(JSON.parse(storedCerts));
       if (storedVideoProgress) setVideoProgress(JSON.parse(storedVideoProgress));
 
-      // Seed a demo account and completed demo course for Shivani (only once)
       try {
         const seedKey = 'le_seeded_v1';
         if (!localStorage.getItem(seedKey)) {
@@ -46,29 +72,7 @@ export function AuthProvider({ children }) {
             localStorage.setItem('le_accounts', JSON.stringify(accounts));
           }
 
-          // Ensure enrollment for the demo course
-          const courseId = 'shivani-demo';
-          const enrollObj = JSON.parse(localStorage.getItem(STORAGE_KEYS.ENROLLMENTS) || '{}');
-          enrollObj[courseId] = {
-            enrolledAt: new Date().toISOString(),
-            completedVideos: [],
-            completed: true,
-            completedAt: new Date().toISOString(),
-            progressPercent: 100
-          };
-          localStorage.setItem(STORAGE_KEYS.ENROLLMENTS, JSON.stringify(enrollObj));
-
-          // Issue certificate for the demo course
-          const certs = JSON.parse(localStorage.getItem(STORAGE_KEYS.CERTIFICATES) || '[]');
-          if (!certs.find(c => c.courseId === courseId && c.userId === shiv.id)) {
-            certs.push({
-              id: `LE-SEED-${Date.now()}`,
-              courseId,
-              userId: shiv.id,
-              issuedAt: new Date().toISOString()
-            });
-            localStorage.setItem(STORAGE_KEYS.CERTIFICATES, JSON.stringify(certs));
-          }
+          seedDemoCompletion();
 
           // Update in-memory state so the app reflects the seeded data immediately
           setCertificates(JSON.parse(localStorage.getItem(STORAGE_KEYS.CERTIFICATES) || '[]'));
@@ -82,6 +86,12 @@ export function AuthProvider({ children }) {
           localStorage.setItem(seedKey, '1');
         }
       } catch (_) {}
+
+      if (storedUser) {
+        seedDemoCompletion();
+        setCertificates(JSON.parse(localStorage.getItem(STORAGE_KEYS.CERTIFICATES) || '[]'));
+        setEnrollments(JSON.parse(localStorage.getItem(STORAGE_KEYS.ENROLLMENTS) || '{}'));
+      }
     } catch (_) {}
     setLoading(false);
   }, []);
@@ -108,6 +118,9 @@ export function AuthProvider({ children }) {
     const { password: _, ...safeUser } = newUser;
     setUser(safeUser);
     persist(STORAGE_KEYS.USER, safeUser);
+    seedDemoCompletion();
+    setCertificates(JSON.parse(localStorage.getItem(STORAGE_KEYS.CERTIFICATES) || '[]'));
+    setEnrollments(JSON.parse(localStorage.getItem(STORAGE_KEYS.ENROLLMENTS) || '{}'));
     return { success: true };
   };
 
@@ -118,6 +131,9 @@ export function AuthProvider({ children }) {
     const { password: _, ...safeUser } = account;
     setUser(safeUser);
     persist(STORAGE_KEYS.USER, safeUser);
+    seedDemoCompletion();
+    setCertificates(JSON.parse(localStorage.getItem(STORAGE_KEYS.CERTIFICATES) || '[]'));
+    setEnrollments(JSON.parse(localStorage.getItem(STORAGE_KEYS.ENROLLMENTS) || '{}'));
     return { success: true };
   };
 

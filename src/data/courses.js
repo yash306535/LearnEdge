@@ -1,3 +1,5 @@
+import shivaniCertificateImage from '../asset/shivani.png';
+
 export const courses = [
   {
     id: "shivani-demo",
@@ -8,7 +10,7 @@ export const courses = [
       name: "Shivani Kapase",
       title: "Learner",
       company: "LearnEdge Demo",
-      avatar: "/src/asset/shivani.png",
+      avatar: shivaniCertificateImage,
       bio: "Demo instructor account for Shivani.",
       courses: 1,
       students: 1,
@@ -24,7 +26,7 @@ export const courses = [
     reviews: 0,
     price: 0,
     originalPrice: 0,
-    thumbnail: "/src/asset/shivani.png",
+    thumbnail: shivaniCertificateImage,
     badge: "Demo",
     certificate: true,
     lastUpdated: "April 2026",
