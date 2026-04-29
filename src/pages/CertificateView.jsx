@@ -67,10 +67,33 @@ export default function CertificateView() {
   };
 
   const fullName = `${user?.firstName || ''} ${user?.lastName || ''}`.trim();
-  const certificateSlug = slugify(fullName || user?.email?.split('@')[0] || 'shivani');
-  const certificateAsset = certificateImageModules[`../asset/${certificateSlug}.png`]
-    || certificateImageModules[`../asset/${slugify(user?.firstName || '')}.png`]
-    || certificateImage;
+  const candidates = [];
+  const emailLocal = (user?.email || '').split('@')[0] || '';
+  if (fullName) {
+    candidates.push(slugify(fullName));
+    const parts = fullName.split(' ').filter(Boolean);
+    if (parts.length >= 2) {
+      candidates.push(slugify(parts[0]));
+      candidates.push(slugify(parts[1]));
+      candidates.push(slugify(parts.join('-')));
+      candidates.push(slugify(parts.reverse().join('-')));
+    } else {
+      candidates.push(slugify(fullName));
+    }
+  }
+  if (user?.firstName) candidates.push(slugify(user.firstName));
+  if (user?.lastName) candidates.push(slugify(user.lastName));
+  if (emailLocal) candidates.push(slugify(emailLocal));
+  // unique and filter empties
+  const uniq = Array.from(new Set(candidates.filter(Boolean)));
+  let certificateAsset = certificateImage;
+  for (const s of uniq) {
+    const key = `../asset/${s}.png`;
+    if (certificateImageModules[key]) {
+      certificateAsset = certificateImageModules[key];
+      break;
+    }
+  }
 
   return (
     <div className="cert-view-page">
