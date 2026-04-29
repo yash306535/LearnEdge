@@ -3,9 +3,9 @@ import shivaniCertificateImage from '../asset/shivani.png';
 export const courses = [
   {
     id: "certificate-program-45h",
-    title: "LearnEdge Certificate Program",
-    subtitle: "Complete this 45-hour certificate track and earn your credential",
-    description: "A 45-hour certificate track that appears completed for every logged-in learner and supports personalized certificate artwork.",
+    title: "AWS Zero to Hero",
+    subtitle: "Complete this 45-hour AWS foundational program and earn your credential",
+    description: "A 45-hour AWS-focused certificate track that appears completed for every logged-in learner and supports personalized certificate artwork.",
     instructor: {
       name: "LearnEdge Academy",
       title: "Learning Team",
@@ -26,7 +26,7 @@ export const courses = [
     reviews: 0,
     price: 0,
     originalPrice: 0,
-    thumbnail: shivaniCertificateImage,
+    thumbnail: "https://images.unsplash.com/photo-1509395176047-4a66953fd231?w=800&h=450&fit=crop",
     badge: "Certificate",
     certificate: true,
     lastUpdated: "April 2026",
