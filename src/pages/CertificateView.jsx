@@ -28,7 +28,7 @@ export default function CertificateView() {
           <div className="empty-icon">🔒</div>
           <div className="empty-title">Certificate Not Available</div>
           <p className="empty-text">Complete the course to unlock your certificate.</p>
-          <div style={{ display: 'flex', gap: '0.75rem', justifyContent: 'center', marginTop: '1.25rem' }}>
+          <div className="empty-actions">
             <button className="btn btn-primary" onClick={() => navigate(`/courses/${courseId}`)}>Go to Course</button>
             <button className="btn btn-secondary" onClick={() => navigate('/certificates')}>My Certificates</button>
           </div>
@@ -98,7 +98,7 @@ export default function CertificateView() {
   return (
     <div className="cert-view-page">
       <div className="container">
-        <div style={{ display: 'flex', alignItems: 'center', gap: '1rem', marginBottom: '0.5rem' }}>
+        <div className="cert-view-topbar">
           <button className="btn btn-secondary btn-sm" onClick={() => navigate('/certificates')}>
             ← Back to Certificates
           </button>
@@ -135,7 +135,7 @@ export default function CertificateView() {
           <p style={{ color: 'var(--text-muted)', fontSize: '0.9rem', marginBottom: '1.5rem', lineHeight: 1.65 }}>
             You've completed <strong>{course.title}</strong> and earned your certificate. Share your achievement and inspire others to start their AI learning journey.
           </p>
-          <div style={{ display: 'flex', gap: '0.75rem', justifyContent: 'center', flexWrap: 'wrap' }}>
+          <div className="certificate-share-actions">
             <button className="btn btn-secondary" onClick={handleShare} style={{ fontSize: '0.875rem' }}>
               🔗 Copy Share Link
             </button>
@@ -146,7 +146,7 @@ export default function CertificateView() {
               𝕏 Share on X
             </button>
           </div>
-          <div style={{ marginTop: '1.5rem', padding: '1rem', background: 'var(--bg-soft)', borderRadius: 'var(--radius)', display: 'flex', justifyContent: 'space-between', alignItems: 'center', flexWrap: 'wrap', gap: '0.75rem' }}>
+          <div className="certificate-next-row">
             <div>
               <div style={{ fontWeight: 700, fontSize: '0.9rem', marginBottom: '0.2rem' }}>Want more certificates?</div>
               <div style={{ fontSize: '0.82rem', color: 'var(--text-muted)' }}>Continue your AI learning journey</div>

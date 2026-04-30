@@ -77,7 +77,7 @@ export default function CourseCatalog() {
             {courses.length} expert-crafted courses · Updated monthly · All levels welcome
           </p>
 
-          <div style={{ margin: '1.5rem 0', maxWidth: 520 }}>
+          <div className="catalog-search-wrap">
             <div style={{ position: 'relative' }}>
               <input
                 type="text"
@@ -117,14 +117,14 @@ export default function CourseCatalog() {
 
       <div className="catalog-body">
         <div className="container">
-          <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '1.5rem' }}>
+          <div className="catalog-toolbar">
             <p style={{ fontSize: '0.9rem', color: 'var(--text-muted)' }}>
               Showing <strong>{filtered.length}</strong> of <strong>{courses.length}</strong> courses
               {search && <> matching "<strong>{search}</strong>"</>}
             </p>
             <select
-              className="form-input"
-              style={{ width: 'auto', padding: '0.5rem 1rem', fontSize: '0.875rem' }}
+              className="form-input catalog-sort"
+              style={{ padding: '0.5rem 1rem', fontSize: '0.875rem' }}
             >
               <option>Sort: Most Popular</option>
               <option>Sort: Highest Rated</option>
@@ -151,21 +151,18 @@ export default function CourseCatalog() {
       </div>
 
       {/* COMING SOON SECTION */}
-      <div style={{ background: 'var(--bg-soft)', padding: '4rem 0', marginTop: '2rem' }}>
-        <div className="container" style={{ textAlign: 'center' }}>
+      <div className="catalog-coming-section">
+        <div className="container catalog-coming-inner">
           <span className="section-label">Coming Soon</span>
           <h2 className="section-title">More Courses in Development</h2>
           <p className="section-sub" style={{ margin: '0 auto 2.5rem' }}>Our team is building the next generation of AI courses. Subscribe to be notified first.</p>
-          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: '1rem', maxWidth: 900, margin: '0 auto 2rem' }}>
+          <div className="catalog-coming-grid">
             {[
               { icon: '🤖', title: 'Multi-Agent AI Systems with Claude', date: 'Coming June 2025' },
               { icon: '🔬', title: 'AI Research Methods with Claude', date: 'Coming July 2025' },
               { icon: '🏢', title: 'Enterprise AI Deployment & Governance', date: 'Coming August 2025' },
             ].map((c, i) => (
-              <div key={i} style={{
-                background: 'white', border: '2px dashed var(--border)', borderRadius: 'var(--radius-lg)',
-                padding: '1.75rem', textAlign: 'center',
-              }}>
+              <div key={i} className="catalog-coming-card">
                 <div style={{ fontSize: '2rem', marginBottom: '0.75rem' }}>{c.icon}</div>
                 <div style={{ fontWeight: 700, fontSize: '0.95rem', marginBottom: '0.4rem' }}>{c.title}</div>
                 <div style={{ fontSize: '0.78rem', color: 'var(--primary)', fontWeight: 600 }}>{c.date}</div>

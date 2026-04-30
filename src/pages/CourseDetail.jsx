@@ -112,7 +112,7 @@ export default function CourseDetail() {
                 <div className="course-detail-meta-item"><span>⏱</span> {course.duration}</div>
                 <div className="course-detail-meta-item"><span>🎬</span> {course.lectures} lectures</div>
               </div>
-              <div style={{ display: 'flex', gap: '0.5rem', flexWrap: 'wrap', marginBottom: '0.5rem' }}>
+              <div className="course-detail-badges">
                 {course.badge && <span className={`badge badge-bestseller`}>{course.badge}</span>}
                 <span className={`badge ${levelClass}`}>{course.level}</span>
                 <span className="badge badge-primary">🌐 {course.language}</span>
@@ -154,7 +154,7 @@ export default function CourseDetail() {
 
                 {enrolled && !completed && (
                   <div style={{ marginBottom: '1rem' }}>
-                    <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: '0.82rem', marginBottom: '0.4rem' }}>
+                    <div className="course-progress-row">
                       <span style={{ fontWeight: 600 }}>Your Progress</span>
                       <span style={{ color: 'var(--primary)', fontWeight: 700 }}>{progress}%</span>
                     </div>
@@ -211,7 +211,7 @@ export default function CourseDetail() {
                   ))}
                 </div>
 
-                <div style={{ display: 'flex', gap: '0.5rem', marginTop: '0.5rem' }}>
+                <div className="course-enroll-actions">
                   <button className="btn btn-secondary btn-sm" style={{ flex: 1, fontSize: '0.78rem' }}>🔗 Share</button>
                   <button className="btn btn-secondary btn-sm" style={{ flex: 1, fontSize: '0.78rem' }}>🎁 Gift</button>
                   <button className="btn btn-secondary btn-sm" style={{ flex: 1, fontSize: '0.78rem' }}>♡ Save</button>
@@ -244,8 +244,8 @@ export default function CourseDetail() {
               {/* OVERVIEW TAB */}
               {activeTab === 'overview' && (
                 <div>
-                  <div style={{ background: 'white', border: '1px solid var(--border)', borderRadius: 'var(--radius-lg)', padding: '2rem', marginBottom: '1.5rem' }}>
-                    <h3 style={{ fontFamily: 'var(--font-display)', fontSize: '1.15rem', fontWeight: 700, marginBottom: '1.25rem' }}>
+                  <div className="surface-panel" style={{ marginBottom: '1.5rem' }}>
+                    <h3 className="surface-panel-title" style={{ marginBottom: '1.25rem' }}>
                       What You'll Learn
                     </h3>
                     <div className="course-learn-grid">
@@ -258,15 +258,15 @@ export default function CourseDetail() {
                     </div>
                   </div>
 
-                  <div style={{ background: 'white', border: '1px solid var(--border)', borderRadius: 'var(--radius-lg)', padding: '2rem', marginBottom: '1.5rem' }}>
-                    <h3 style={{ fontFamily: 'var(--font-display)', fontSize: '1.15rem', fontWeight: 700, marginBottom: '1rem' }}>
+                  <div className="surface-panel" style={{ marginBottom: '1.5rem' }}>
+                    <h3 className="surface-panel-title" style={{ marginBottom: '1rem' }}>
                       About This Course
                     </h3>
                     <p style={{ fontSize: '0.95rem', color: 'var(--text-sub)', lineHeight: 1.75 }}>{course.description}</p>
-                    <div style={{ marginTop: '1.5rem' }}>
+                    <div className="course-requirements-list">
                       <h4 style={{ fontWeight: 700, marginBottom: '0.75rem' }}>Requirements</h4>
                       {course.requirements.map((r, i) => (
-                        <div key={i} style={{ display: 'flex', gap: '0.5rem', marginBottom: '0.4rem', fontSize: '0.875rem', color: 'var(--text-sub)' }}>
+                        <div key={i} className="course-requirements-item">
                           <span>→</span><span>{r}</span>
                         </div>
                       ))}
@@ -285,7 +285,7 @@ export default function CourseDetail() {
               {activeTab === 'curriculum' && (
                 <div>
                   {enrolled && currentVideo && (
-                    <div style={{ background: 'white', border: '1px solid var(--border)', borderRadius: 'var(--radius-lg)', padding: '1.5rem', marginBottom: '1.5rem' }}>
+                    <div className="surface-panel surface-panel-sm" style={{ marginBottom: '1.5rem' }}>
                       <div className="current-video-info">
                         <div className="current-video-title">{currentVideo.title}</div>
                         <div className="current-video-meta">
@@ -294,7 +294,7 @@ export default function CourseDetail() {
                         </div>
                       </div>
                       <VideoPlayer videoId={currentVideo.videoId} title={currentVideo.title} key={currentVideo.id} />
-                      <div style={{ display: 'flex', gap: '0.75rem', justifyContent: 'flex-end' }}>
+                      <div className="course-player-actions">
                         {!isVideoComplete(id, currentVideo.id) && (
                           <button className="btn btn-success btn-sm" onClick={() => handleMarkVideo(currentVideo.id)}>
                             ✓ Mark as Complete
@@ -309,7 +309,7 @@ export default function CourseDetail() {
                     </div>
                   )}
 
-                  <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '1rem' }}>
+                  <div className="course-curriculum-toolbar">
                     <div style={{ fontSize: '0.875rem', color: 'var(--text-muted)' }}>
                       {course.playlist.length} sections · {totalVideos} lectures · {course.duration}
                     </div>
@@ -379,10 +379,9 @@ export default function CourseDetail() {
 
               {/* INSTRUCTOR TAB */}
               {activeTab === 'instructor' && (
-                <div style={{ background: 'white', border: '1px solid var(--border)', borderRadius: 'var(--radius-lg)', padding: '2rem' }}>
-                  <div style={{ display: 'flex', gap: '1.5rem', alignItems: 'flex-start' }}>
-                    <img src={course.instructor.avatar} alt={course.instructor.name}
-                      style={{ width: 100, height: 100, borderRadius: '50%', objectFit: 'cover', border: '4px solid var(--primary-light)' }} />
+                <div className="surface-panel">
+                  <div className="course-instructor-top">
+                    <img src={course.instructor.avatar} alt={course.instructor.name} className="course-instructor-avatar-lg" />
                     <div>
                       <h2 style={{ fontFamily: 'var(--font-display)', fontSize: '1.4rem', fontWeight: 800, marginBottom: '0.2rem' }}>
                         {course.instructor.name}
@@ -390,7 +389,7 @@ export default function CourseDetail() {
                       <p style={{ color: 'var(--text-muted)', fontSize: '0.9rem', marginBottom: '0.75rem' }}>
                         {course.instructor.title} · {course.instructor.company}
                       </p>
-                      <div style={{ display: 'flex', gap: '1.5rem', fontSize: '0.85rem', color: 'var(--text-sub)' }}>
+                      <div className="course-instructor-stats">
                         <span>⭐ {course.instructor.rating} Instructor Rating</span>
                         <span>👥 {course.instructor.students.toLocaleString()} Students</span>
                         <span>📚 {course.instructor.courses} Courses</span>
@@ -406,8 +405,8 @@ export default function CourseDetail() {
               {/* REVIEWS TAB */}
               {activeTab === 'reviews' && (
                 <div>
-                  <div style={{ background: 'white', border: '1px solid var(--border)', borderRadius: 'var(--radius-lg)', padding: '2rem', marginBottom: '1.5rem' }}>
-                    <div style={{ display: 'flex', gap: '3rem', alignItems: 'center', marginBottom: '2rem' }}>
+                  <div className="surface-panel" style={{ marginBottom: '1.5rem' }}>
+                    <div className="course-reviews-summary">
                       <div style={{ textAlign: 'center' }}>
                         <div style={{ fontFamily: 'var(--font-display)', fontSize: '4rem', fontWeight: 900, color: 'var(--primary)', lineHeight: 1 }}>{course.rating}</div>
                         <div style={{ color: '#F59E0B', fontSize: '1.5rem', margin: '0.5rem 0' }}>★★★★★</div>
@@ -415,7 +414,7 @@ export default function CourseDetail() {
                       </div>
                       <div style={{ flex: 1 }}>
                         {[5,4,3,2,1].map(star => (
-                          <div key={star} style={{ display: 'flex', alignItems: 'center', gap: '0.75rem', marginBottom: '0.5rem' }}>
+                        <div key={star} className="course-review-breakdown-row">
                             <div className="progress-bar-wrap" style={{ flex: 1, height: 10 }}>
                               <div className="progress-bar-fill" style={{ width: `${[75, 18, 5, 1, 1][5-star]}%` }} />
                             </div>
@@ -431,9 +430,9 @@ export default function CourseDetail() {
                       { name: 'James R.', date: 'February 2025', rating: 4, text: 'Great course overall. The video quality is excellent and the content is well-organized. A few areas could be expanded but overall 4 stars.' },
                     ].map((review, i) => (
                       <div key={i} style={{ padding: '1.25rem 0', borderBottom: '1px solid var(--border)' }}>
-                        <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '0.5rem' }}>
-                          <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
-                            <div style={{ width: 36, height: 36, borderRadius: '50%', background: 'var(--primary)', color: 'white', display: 'flex', alignItems: 'center', justifyContent: 'center', fontWeight: 700, fontSize: '0.9rem' }}>
+                        <div className="course-review-header">
+                          <div className="course-review-author">
+                            <div className="course-review-avatar">
                               {review.name[0]}
                             </div>
                             <div>
@@ -452,11 +451,11 @@ export default function CourseDetail() {
             </div>
 
             {/* STICKY SIDEBAR (mobile: hidden via CSS) */}
-            <div style={{ display: 'flex', flexDirection: 'column', gap: '1rem' }}>
+            <div className="course-sidebar-stack">
               {/* QUICK STATS */}
-              <div style={{ background: 'white', border: '1px solid var(--border)', borderRadius: 'var(--radius-lg)', padding: '1.5rem' }}>
+              <div className="surface-panel surface-panel-sm">
                 <h4 style={{ fontWeight: 700, marginBottom: '1rem', fontSize: '0.95rem' }}>Course Includes</h4>
-                <div style={{ display: 'flex', flexDirection: 'column', gap: '0.65rem' }}>
+                <div className="course-sidebar-list">
                   {[
                     { icon: '🎬', label: `${course.lectures} on-demand video lectures` },
                     { icon: '⏱', label: `${course.duration} of HD video content` },
@@ -467,7 +466,7 @@ export default function CourseDetail() {
                     { icon: '💬', label: 'Community discussion board' },
                     { icon: '🔄', label: 'Regular content updates' },
                   ].map(item => (
-                    <div key={item.label} style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', fontSize: '0.85rem', color: 'var(--text-sub)' }}>
+                    <div key={item.label} className="course-sidebar-list-item">
                       <span>{item.icon}</span><span>{item.label}</span>
                     </div>
                   ))}
@@ -475,7 +474,7 @@ export default function CourseDetail() {
               </div>
 
               {/* RELATED COURSES */}
-              <div style={{ background: 'white', border: '1px solid var(--border)', borderRadius: 'var(--radius-lg)', padding: '1.5rem' }}>
+              <div className="surface-panel surface-panel-sm">
                 <h4 style={{ fontWeight: 700, marginBottom: '1rem', fontSize: '0.95rem' }}>Related Courses</h4>
                 <div style={{ fontSize: '0.8rem', color: 'var(--primary)', fontWeight: 600, cursor: 'pointer' }} onClick={() => navigate('/courses')}>
                   View all AI courses →

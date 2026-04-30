@@ -24,12 +24,12 @@ export default function MyCertificates() {
           </p>
 
           {certData.length > 0 && (
-            <div style={{ display: 'flex', gap: '1.5rem', marginTop: '1.25rem', flexWrap: 'wrap' }}>
-              <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
+            <div className="page-summary-row">
+              <div className="page-summary-item">
                 <span style={{ fontFamily: 'var(--font-display)', fontSize: '1.5rem', fontWeight: 800, color: 'var(--primary)' }}>{certData.length}</span>
                 <span style={{ fontSize: '0.85rem', color: 'var(--text-muted)' }}>Certificates Earned</span>
               </div>
-              <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
+              <div className="page-summary-item">
                 <span style={{ fontFamily: 'var(--font-display)', fontSize: '1.5rem', fontWeight: 800, color: 'var(--accent)' }}>
                   {certData.reduce((acc, c) => acc + c.course.totalHours, 0)}h
                 </span>
@@ -55,18 +55,18 @@ export default function MyCertificates() {
               </div>
 
               {/* How certificates work */}
-              <div style={{ background: 'linear-gradient(135deg, #FFF7ED, #FFFBEB)', border: '2px solid #FDE68A', borderRadius: 'var(--radius-xl)', padding: '2.5rem' }}>
+              <div className="cert-steps-panel">
                 <h2 style={{ fontFamily: 'var(--font-display)', fontSize: '1.3rem', fontWeight: 800, marginBottom: '1.5rem', color: '#92400E' }}>
                   🎓 How to Earn Your Certificate
                 </h2>
-                <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: '1.5rem' }}>
+                <div className="cert-steps-grid">
                   {[
                     { step: '1', icon: '🎬', title: 'Enroll in a Course', desc: 'Choose from our Claude AI, Prompt Engineering, or API Development courses.' },
                     { step: '2', icon: '📚', title: 'Complete All Lessons', desc: 'Watch all video lectures and complete the hands-on exercises in each module.' },
                     { step: '3', icon: '🏆', title: 'Earn Your Certificate', desc: 'Receive an instant, personalized, shareable certificate with your name on it.' },
                   ].map(item => (
-                    <div key={item.step} style={{ textAlign: 'center' }}>
-                      <div style={{ width: 48, height: 48, background: '#D97706', borderRadius: '50%', display: 'flex', alignItems: 'center', justifyContent: 'center', color: 'white', fontWeight: 800, fontSize: '1.2rem', margin: '0 auto 0.75rem' }}>
+                    <div key={item.step} className="cert-step-card">
+                      <div className="cert-step-num">
                         {item.step}
                       </div>
                       <div style={{ fontSize: '1.5rem', marginBottom: '0.5rem' }}>{item.icon}</div>
@@ -96,7 +96,7 @@ export default function MyCertificates() {
                         Issued {new Date(cert.issuedAt).toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric' })}
                       </div>
                       <div className="cert-card-id">ID: {cert.id}</div>
-                      <div style={{ marginTop: '0.75rem', display: 'flex', gap: '0.5rem' }}>
+                      <div className="inline-actions" style={{ marginTop: '0.75rem' }}>
                         <span style={{ fontSize: '0.75rem', color: 'var(--text-muted)' }}>🎓 {user?.firstName} {user?.lastName}</span>
                       </div>
                     </div>
@@ -118,7 +118,7 @@ export default function MyCertificates() {
 
               {/* Encourage more */}
               {courses.filter(c => !certificates.find(cert => cert.courseId === c.id)).length > 0 && (
-                <div style={{ marginTop: '3rem', textAlign: 'center', padding: '2.5rem', background: 'linear-gradient(135deg, var(--primary-light), white)', borderRadius: 'var(--radius-xl)', border: '1px solid var(--border)' }}>
+                <div className="cta-panel" style={{ marginTop: '3rem' }}>
                   <div style={{ fontSize: '2rem', marginBottom: '0.75rem' }}>🚀</div>
                   <h3 style={{ fontFamily: 'var(--font-display)', fontSize: '1.2rem', fontWeight: 700, marginBottom: '0.5rem' }}>
                     Earn More Certificates

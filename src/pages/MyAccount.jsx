@@ -40,7 +40,7 @@ export default function MyAccount() {
             <div>
               <div className="account-name">{user?.firstName} {user?.lastName}</div>
               <div className="account-email">{user?.email}</div>
-              <div style={{ marginTop: '0.5rem', display: 'flex', gap: '0.5rem' }}>
+              <div className="account-hero-badges">
                 <span className="badge" style={{ background: 'rgba(255,255,255,0.2)', color: 'white', fontSize: '0.72rem' }}>
                   🎓 {enrolledCourses.length} courses enrolled
                 </span>
@@ -146,7 +146,7 @@ export default function MyAccount() {
                           </select>
                         </div>
                       </div>
-                      <div style={{ display: 'flex', gap: '0.75rem' }}>
+                      <div className="account-form-actions">
                         <button type="submit" className="btn btn-primary">
                           💾 Save Changes
                         </button>
@@ -213,20 +213,20 @@ export default function MyAccount() {
                   {enrolledCourses.length > 0 && (
                     <div className="account-card">
                       <div className="account-card-title">📚 Course Progress</div>
-                      <div style={{ display: 'flex', flexDirection: 'column', gap: '1.25rem' }}>
+                      <div className="account-progress-list">
                         {enrolledCourses.map(c => {
                           const prog = getProgress(c.id);
                           const done = enrollments[c.id]?.completed;
                           return (
-                            <div key={c.id} style={{ display: 'flex', gap: '1rem', alignItems: 'center' }}>
-                              <img src={c.thumbnail} alt={c.title} style={{ width: 64, height: 42, objectFit: 'cover', borderRadius: 'var(--radius-xs)', flexShrink: 0 }} />
-                              <div style={{ flex: 1 }}>
+                            <div key={c.id} className="account-progress-item">
+                              <img src={c.thumbnail} alt={c.title} className="account-progress-thumb" />
+                              <div className="account-progress-main">
                                 <div style={{ fontWeight: 600, fontSize: '0.9rem', marginBottom: '0.3rem' }}>{c.title}</div>
                                 <div className="progress-bar-wrap" style={{ height: 8 }}>
                                   <div className="progress-bar-fill" style={{ width: `${prog}%`, background: done ? 'var(--success)' : undefined }} />
                                 </div>
                               </div>
-                              <div style={{ fontWeight: 700, fontSize: '0.9rem', color: done ? 'var(--success)' : 'var(--primary)', flexShrink: 0 }}>
+                              <div className="account-progress-status" style={{ color: done ? 'var(--success)' : 'var(--primary)' }}>
                                 {done ? '✅ Done' : `${prog}%`}
                               </div>
                             </div>
@@ -238,7 +238,7 @@ export default function MyAccount() {
 
                   <div className="account-card">
                     <div className="account-card-title">🏅 Achievements</div>
-                    <div style={{ display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gap: '1rem' }}>
+                    <div className="account-achievements-grid">
                       {[
                         { icon: '🎯', name: 'First Enrollment', desc: 'Enrolled in your first course', unlocked: enrolledCourses.length > 0 },
                         { icon: '🔥', name: 'On Fire!', desc: '3-day learning streak', unlocked: enrolledCourses.length > 0 },
@@ -249,13 +249,15 @@ export default function MyAccount() {
                         { icon: '📝', name: 'Note Taker', desc: 'Added learning notes', unlocked: false },
                         { icon: '🤝', name: 'Collaborator', desc: 'Helped 5 students', unlocked: false },
                       ].map((a, i) => (
-                        <div key={i} style={{
-                          textAlign: 'center', padding: '1rem 0.5rem',
-                          background: a.unlocked ? 'linear-gradient(135deg, #FFF7ED, #FFFBEB)' : 'var(--bg-gray)',
-                          border: `2px solid ${a.unlocked ? '#FDE68A' : 'var(--border)'}`,
-                          borderRadius: 'var(--radius)', opacity: a.unlocked ? 1 : 0.5,
-                          transition: 'all var(--transition)',
-                        }}>
+                        <div
+                          key={i}
+                          className="account-achievement-card"
+                          style={{
+                            background: a.unlocked ? 'linear-gradient(135deg, #FFF7ED, #FFFBEB)' : 'var(--bg-gray)',
+                            border: `2px solid ${a.unlocked ? '#FDE68A' : 'var(--border)'}`,
+                            opacity: a.unlocked ? 1 : 0.5,
+                          }}
+                        >
                           <div style={{ fontSize: '1.75rem', marginBottom: '0.4rem', filter: a.unlocked ? 'none' : 'grayscale(1)' }}>{a.icon}</div>
                           <div style={{ fontWeight: 700, fontSize: '0.78rem', marginBottom: '0.2rem' }}>{a.name}</div>
                           <div style={{ fontSize: '0.68rem', color: 'var(--text-muted)', lineHeight: 1.4 }}>{a.desc}</div>
@@ -288,7 +290,7 @@ export default function MyAccount() {
                   </form>
                   <div className="divider" />
                   <h4 style={{ fontWeight: 700, marginBottom: '1rem' }}>Two-Factor Authentication</h4>
-                  <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+                  <div className="account-inline-row">
                     <div>
                       <p style={{ fontSize: '0.875rem', color: 'var(--text-sub)' }}>Add an extra layer of security to your account.</p>
                     </div>
@@ -309,13 +311,13 @@ export default function MyAccount() {
                     { label: 'Promotional offers', sub: 'Discounts, sales, and special offers on courses', on: false },
                     { label: 'Community activity', sub: 'Replies to your comments and forum activity', on: true },
                   ].map((item, i) => (
-                    <div key={i} style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', padding: '1rem 0', borderBottom: '1px solid var(--border)' }}>
-                      <div>
+                    <div key={i} className="settings-row">
+                      <div className="settings-copy">
                         <div style={{ fontWeight: 600, fontSize: '0.9rem' }}>{item.label}</div>
                         <div style={{ fontSize: '0.8rem', color: 'var(--text-muted)', marginTop: '0.2rem' }}>{item.sub}</div>
                       </div>
-                      <div style={{ width: 44, height: 24, background: item.on ? 'var(--primary)' : 'var(--border)', borderRadius: 12, cursor: 'pointer', flexShrink: 0, position: 'relative', transition: 'background 0.2s' }}>
-                        <div style={{ position: 'absolute', width: 18, height: 18, background: 'white', borderRadius: '50%', top: 3, left: item.on ? 23 : 3, transition: 'left 0.2s', boxShadow: 'var(--shadow-sm)' }} />
+                      <div className="settings-toggle" style={{ background: item.on ? 'var(--primary)' : 'var(--border)' }}>
+                        <div className="settings-toggle-knob" style={{ left: item.on ? 23 : 3 }} />
                       </div>
                     </div>
                   ))}
@@ -328,7 +330,7 @@ export default function MyAccount() {
                 <div>
                   <div className="account-card">
                     <div className="account-card-title">💳 Current Plan</div>
-                    <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', padding: '1.5rem', background: 'var(--primary-light)', borderRadius: 'var(--radius)', border: '2px solid var(--primary)' }}>
+                    <div className="account-plan-row">
                       <div>
                         <div style={{ fontWeight: 800, fontSize: '1.1rem', color: 'var(--primary)' }}>Free Plan</div>
                         <div style={{ fontSize: '0.875rem', color: 'var(--text-sub)', marginTop: '0.2rem' }}>3 courses · Basic features</div>
@@ -356,19 +358,19 @@ export default function MyAccount() {
                     { label: 'Allow Course Recommendations', sub: 'Use my learning history to suggest personalized courses', on: true },
                     { label: 'Analytics & Improvement', sub: 'Share anonymous usage data to help improve LearnEdge', on: true },
                   ].map((item, i) => (
-                    <div key={i} style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', padding: '1rem 0', borderBottom: '1px solid var(--border)' }}>
-                      <div>
+                    <div key={i} className="settings-row">
+                      <div className="settings-copy">
                         <div style={{ fontWeight: 600, fontSize: '0.9rem' }}>{item.label}</div>
                         <div style={{ fontSize: '0.8rem', color: 'var(--text-muted)', marginTop: '0.2rem' }}>{item.sub}</div>
                       </div>
-                      <div style={{ width: 44, height: 24, background: item.on ? 'var(--primary)' : 'var(--border)', borderRadius: 12, cursor: 'pointer', flexShrink: 0, position: 'relative' }}>
-                        <div style={{ position: 'absolute', width: 18, height: 18, background: 'white', borderRadius: '50%', top: 3, left: item.on ? 23 : 3, boxShadow: 'var(--shadow-sm)' }} />
+                      <div className="settings-toggle" style={{ background: item.on ? 'var(--primary)' : 'var(--border)' }}>
+                        <div className="settings-toggle-knob" style={{ left: item.on ? 23 : 3 }} />
                       </div>
                     </div>
                   ))}
                   <div style={{ marginTop: '1.5rem' }}>
                     <h4 style={{ fontWeight: 700, marginBottom: '0.75rem' }}>Data & Privacy</h4>
-                    <div style={{ display: 'flex', gap: '0.75rem', flexWrap: 'wrap' }}>
+                    <div className="account-data-actions">
                       <button className="btn btn-secondary btn-sm">📥 Download My Data</button>
                       <button className="btn btn-secondary btn-sm">🗑 Request Data Deletion</button>
                     </div>

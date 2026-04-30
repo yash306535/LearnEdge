@@ -61,10 +61,10 @@ export default function Register() {
             </div>
           ))}
         </div>
-        <div style={{ marginTop: '2rem', padding: '1rem', background: 'rgba(255,255,255,0.1)', borderRadius: '12px' }}>
+        <div className="register-proof">
           <div style={{ fontSize: '0.8rem', opacity: 0.8, marginBottom: '0.5rem' }}>🌟 Join thousands of satisfied learners</div>
-          <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
-            <div style={{ display: 'flex' }}>
+          <div className="register-proof-row">
+            <div className="register-proof-avatars">
               {['🟣','🔵','🟢','🟡','🔴'].map((c, i) => (
                 <div key={i} style={{ width: 28, height: 28, borderRadius: '50%', background: 'rgba(255,255,255,0.3)', border: '2px solid rgba(255,255,255,0.5)', marginLeft: i > 0 ? -8 : 0, display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '0.6rem' }}>
                   {['M','S','A','J','K'][i]}
@@ -155,7 +155,7 @@ export default function Register() {
               )}
             </div>
 
-            <div style={{ display: 'flex', alignItems: 'flex-start', gap: '0.5rem', marginBottom: '1.25rem' }}>
+            <div className="terms-check-row">
               <input type="checkbox" id="terms" required style={{ marginTop: '0.2rem' }} />
               <label htmlFor="terms" style={{ fontSize: '0.82rem', color: 'var(--text-sub)', lineHeight: 1.5 }}>
                 I agree to LearnEdge's <a href="#" style={{ color: 'var(--primary)' }}>Terms of Service</a> and{' '}
@@ -174,7 +174,7 @@ export default function Register() {
             <div className="auth-divider-line" />
           </div>
 
-          <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '0.75rem' }}>
+          <div className="social-auth-grid">
             <button className="btn btn-secondary" style={{ fontSize: '0.875rem' }}>
               🔵 Google
             </button>

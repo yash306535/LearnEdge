@@ -16,9 +16,24 @@ export default function Navbar() {
         setDropdownOpen(false);
       }
     };
+
     document.addEventListener('mousedown', handler);
     return () => document.removeEventListener('mousedown', handler);
   }, []);
+
+  useEffect(() => {
+    setDropdownOpen(false);
+    setMobileMenuOpen(false);
+  }, [location.pathname]);
+
+  useEffect(() => {
+    const isMobile = window.matchMedia('(max-width: 768px)').matches;
+    document.body.style.overflow = mobileMenuOpen && isMobile ? 'hidden' : '';
+
+    return () => {
+      document.body.style.overflow = '';
+    };
+  }, [mobileMenuOpen]);
 
   const handleLogout = () => {
     logout();
@@ -37,7 +52,7 @@ export default function Navbar() {
     <nav className="navbar">
       <div className="container">
         <Link to="/" className="nav-logo">
-          <div className="nav-logo-icon">🎓</div>
+          <div className="nav-logo-icon">LE</div>
           <span>Learn<span>Edge</span></span>
         </Link>
 
@@ -51,15 +66,44 @@ export default function Navbar() {
               <Link to="/certificates" className={`nav-link ${isActive('/certificates') ? 'active' : ''}`} onClick={() => setMobileMenuOpen(false)}>Certificates</Link>
             </>
           )}
+
+          <div className="nav-links-mobile-footer">
+            {user ? (
+              <>
+                <div className="nav-mobile-user">
+                  <div className="nav-avatar">{initials}</div>
+                  <div className="nav-mobile-user-copy">
+                    <div className="nav-mobile-user-name">{user.firstName} {user.lastName}</div>
+                    <div className="nav-mobile-user-email">{user.email}</div>
+                  </div>
+                </div>
+                <Link
+                  to="/account"
+                  className={`nav-link ${isActive('/account') ? 'active' : ''}`}
+                  onClick={() => setMobileMenuOpen(false)}
+                >
+                  Account Settings
+                </Link>
+                <button type="button" className="nav-mobile-signout" onClick={handleLogout}>
+                  Sign Out
+                </button>
+              </>
+            ) : (
+              <div className="nav-mobile-auth">
+                <Link to="/login" className="btn btn-secondary btn-sm" onClick={() => setMobileMenuOpen(false)}>Log In</Link>
+                <Link to="/register" className="btn btn-primary btn-sm" onClick={() => setMobileMenuOpen(false)}>Get Started</Link>
+              </div>
+            )}
+          </div>
         </div>
 
         <div className="nav-auth">
           {user ? (
             <div style={{ position: 'relative' }} ref={dropdownRef}>
-              <div className="nav-user" onClick={() => setDropdownOpen(o => !o)}>
+              <div className="nav-user" onClick={() => setDropdownOpen((open) => !open)}>
                 <div className="nav-avatar">{initials}</div>
                 <span className="nav-user-name">{user.firstName}</span>
-                <span style={{ fontSize: '0.7rem', color: 'var(--text-muted)' }}>{dropdownOpen ? '▲' : '▼'}</span>
+                <span style={{ fontSize: '0.7rem', color: 'var(--text-muted)' }}>{dropdownOpen ? '^' : 'v'}</span>
               </div>
               {dropdownOpen && (
                 <div className="nav-dropdown">
@@ -68,20 +112,20 @@ export default function Navbar() {
                     <div style={{ fontSize: '0.78rem', color: 'var(--text-muted)', marginTop: '0.15rem' }}>{user.email}</div>
                   </div>
                   <div className="nav-dropdown-item" onClick={() => { navigate('/dashboard'); setDropdownOpen(false); }}>
-                    <span>📊</span> Dashboard
+                    <span>Dashboard</span>
                   </div>
                   <div className="nav-dropdown-item" onClick={() => { navigate('/my-learning'); setDropdownOpen(false); }}>
-                    <span>📚</span> My Learning
+                    <span>My Learning</span>
                   </div>
                   <div className="nav-dropdown-item" onClick={() => { navigate('/certificates'); setDropdownOpen(false); }}>
-                    <span>🏆</span> My Certificates
+                    <span>My Certificates</span>
                   </div>
                   <div className="nav-dropdown-item" onClick={() => { navigate('/account'); setDropdownOpen(false); }}>
-                    <span>👤</span> Account Settings
+                    <span>Account Settings</span>
                   </div>
                   <div className="nav-dropdown-divider" />
                   <div className="nav-dropdown-item danger" onClick={handleLogout}>
-                    <span>🚪</span> Sign Out
+                    <span>Sign Out</span>
                   </div>
                 </div>
               )}
@@ -94,8 +138,14 @@ export default function Navbar() {
           )}
         </div>
 
-        <button className="mobile-menu-btn" onClick={() => setMobileMenuOpen(!mobileMenuOpen)}>
-          ☰
+        <button
+          type="button"
+          className="mobile-menu-btn"
+          aria-expanded={mobileMenuOpen}
+          aria-label={mobileMenuOpen ? 'Close navigation menu' : 'Open navigation menu'}
+          onClick={() => setMobileMenuOpen((open) => !open)}
+        >
+          {mobileMenuOpen ? 'Close' : 'Menu'}
         </button>
       </div>
     </nav>

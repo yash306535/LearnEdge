@@ -70,7 +70,7 @@ export default function Login() {
               />
             </div>
             <div className="form-group">
-              <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+              <div className="form-label-row">
                 <label className="form-label">Password</label>
                 <a href="#" style={{ fontSize: '0.82rem', color: 'var(--primary)', fontWeight: 600 }}>Forgot password?</a>
               </div>
@@ -98,7 +98,7 @@ export default function Login() {
             <div className="auth-divider-line" />
           </div>
 
-          <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '0.75rem', marginBottom: '1.25rem' }}>
+          <div className="social-auth-grid" style={{ marginBottom: '1.25rem' }}>
             <button className="btn btn-secondary" style={{ fontSize: '0.875rem' }}>
               🔵 Google
             </button>

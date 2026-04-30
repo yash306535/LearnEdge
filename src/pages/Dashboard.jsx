@@ -133,7 +133,7 @@ export default function Dashboard() {
                       <div className="enrolled-cat">{c.category}</div>
                       <div className="enrolled-title">{c.title}</div>
                       <ProgressBar value={prog} />
-                      <div style={{ marginTop: '0.75rem', display: 'flex', gap: '0.5rem' }}>
+                      <div className="inline-actions" style={{ marginTop: '0.75rem' }}>
                         {done ? (
                           <button
                             className="btn btn-success btn-sm"
@@ -176,7 +176,7 @@ export default function Dashboard() {
               <h2 className="dash-section-title">🏆 Recent Certificates</h2>
               <button className="btn btn-secondary btn-sm" onClick={() => navigate('/certificates')}>View All</button>
             </div>
-            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: '1rem' }}>
+            <div className="dash-certs-grid">
               {certificates.slice(0, 3).map(cert => {
                 const course = courses.find(c => c.id === cert.courseId);
                 if (!course) return null;
@@ -184,12 +184,7 @@ export default function Dashboard() {
                   <div
                     key={cert.id}
                     onClick={() => navigate(`/certificates/${cert.courseId}`)}
-                    style={{
-                      background: 'linear-gradient(135deg, #FFF7ED, #FFFBEB)',
-                      border: '2px solid #FDE68A', borderRadius: 'var(--radius-lg)',
-                      padding: '1.5rem', textAlign: 'center', cursor: 'pointer',
-                      transition: 'all var(--transition)',
-                    }}
+                    className="dash-cert-card"
                     onMouseOver={e => e.currentTarget.style.transform = 'translateY(-3px)'}
                     onMouseOut={e => e.currentTarget.style.transform = 'translateY(0)'}
                   >
@@ -211,23 +206,20 @@ export default function Dashboard() {
             <h2 className="dash-section-title">✨ Recommended for You</h2>
             <button className="btn btn-secondary btn-sm" onClick={() => navigate('/courses')}>Browse All</button>
           </div>
-          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: '1.25rem' }}>
+          <div className="dash-recommended-grid">
             {courses.filter(c => !enrollments[c.id]).slice(0, 3).map(c => (
               <div
                 key={c.id}
                 onClick={() => navigate(`/courses/${c.id}`)}
-                style={{
-                  background: 'white', border: '1px solid var(--border)', borderRadius: 'var(--radius-lg)',
-                  overflow: 'hidden', cursor: 'pointer', transition: 'all var(--transition)',
-                }}
+                className="dash-recommended-card"
                 onMouseOver={e => { e.currentTarget.style.transform = 'translateY(-3px)'; e.currentTarget.style.boxShadow = 'var(--shadow)'; }}
                 onMouseOut={e => { e.currentTarget.style.transform = 'translateY(0)'; e.currentTarget.style.boxShadow = 'none'; }}
               >
                 <img src={c.thumbnail} alt={c.title} style={{ width: '100%', height: 130, objectFit: 'cover' }} />
-                <div style={{ padding: '1rem' }}>
+                <div className="dash-recommended-body">
                   <div style={{ fontSize: '0.7rem', fontWeight: 700, color: 'var(--primary)', textTransform: 'uppercase', marginBottom: '0.3rem' }}>{c.category}</div>
                   <div style={{ fontWeight: 700, fontSize: '0.9rem', marginBottom: '0.5rem' }}>{c.title}</div>
-                  <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
+                  <div className="dash-recommended-meta">
                     <span style={{ color: '#F59E0B', fontSize: '0.8rem' }}>★★★★★</span>
                     <span style={{ fontSize: '0.78rem', color: 'var(--text-muted)' }}>{c.rating} · {c.duration}</span>
                   </div>
@@ -238,7 +230,7 @@ export default function Dashboard() {
               </div>
             ))}
             {courses.filter(c => !enrollments[c.id]).length === 0 && (
-              <div style={{ gridColumn: '1/-1', textAlign: 'center', padding: '2rem', color: 'var(--text-muted)' }}>
+              <div className="dash-wide-empty">
                 🎉 You're enrolled in all available courses! More coming soon.
               </div>
             )}
@@ -248,13 +240,13 @@ export default function Dashboard() {
         {/* LEARNING TIPS */}
         <div className="dash-section">
           <h2 className="dash-section-title" style={{ marginBottom: '1.25rem' }}>💡 AI Learning Tips</h2>
-          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: '1rem' }}>
+          <div className="dash-tip-grid">
             {[
               { icon: '⏰', title: 'Learn Daily', desc: 'Even 20 minutes a day builds strong AI skills. Consistency beats intensity.' },
               { icon: '🧪', title: 'Practice Immediately', desc: 'After each video, try the concept in Claude. Active practice accelerates learning 5x.' },
               { icon: '📝', title: 'Take Notes', desc: 'Writing key concepts in your own words cements understanding and creates a reference library.' },
             ].map((tip, i) => (
-              <div key={i} style={{ background: 'white', border: '1px solid var(--border)', borderRadius: 'var(--radius)', padding: '1.25rem' }}>
+              <div key={i} className="dash-tip-card">
                 <div style={{ fontSize: '1.75rem', marginBottom: '0.5rem' }}>{tip.icon}</div>
                 <div style={{ fontWeight: 700, marginBottom: '0.4rem' }}>{tip.title}</div>
                 <div style={{ fontSize: '0.85rem', color: 'var(--text-muted)', lineHeight: 1.6 }}>{tip.desc}</div>

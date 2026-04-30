@@ -386,7 +386,7 @@ export default function Landing() {
                 <div className="cert-mini-issued" style={{ fontStyle: 'italic', color: 'var(--text-muted)' }}>you have successfully completed</div>
                 <div className="cert-mini-name" style={{ fontFamily: 'Playfair Display, serif', fontSize: '1.8rem', color: 'var(--primary)' }}>Jane Learner</div>
                 <div className="cert-mini-course">Claude AI Fundamentals — 32 Hours</div>
-                <div style={{ borderTop: '1px dashed #D97706', paddingTop: '0.75rem', marginTop: '0.5rem', display: 'flex', justifyContent: 'space-between', fontSize: '0.72rem', color: '#92400E' }}>
+                <div className="cert-mini-meta" style={{ borderTop: '1px dashed #D97706', paddingTop: '0.75rem', marginTop: '0.5rem', fontSize: '0.72rem', color: '#92400E' }}>
                   <span>Issued: March 2025</span>
                   <span>ID: LE-20250312-X8KP</span>
                 </div>
